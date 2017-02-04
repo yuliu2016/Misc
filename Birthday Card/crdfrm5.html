@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="content-type"content="text/html;charset=UTF-8">
+	<meta name="viewport" content="width=device-width;user-scalable=yes">
+	<title>Happy Birthday Baba</title>
+	<style>
+		body{
+			background-color: black;
+		}
+		#card{
+			position:absolute;
+			border-style: dotted;
+			border-color: blue;
+			border-radius: 10px;
+			/*background-color: #00FFFF;*/
+			background-color: white;
+		}
+		#left{
+			position: absolute;
+			left:0%;
+			width: 30%;
+			border-right: 2px solid orange;
+			height: 100%;
+		}
+		#left h1{
+			font-weight: 1000;
+			color: orange;
+			font-family: Verdana,Arial,sans-serif;
+			text-align: center;
+		}
+		#titler{
+			position: absolute;
+			left: 35%;
+			width: 60%;
+			text-align: center;
+			font-size: 20px;
+			font-family: "cursive", cursive , Verdana,Arial,sans-serif;
+			color: #404040;
+		}
+		#image{
+			position: absolute;
+			left:15%;
+			width: 70%;
+		}
+		#content{
+			position: absolute;
+			background-color: white;
+		}
+		#countup{
+			position: absolute;
+			left: 0%;
+			width: 100%;
+			top:0%;
+			font-family: Verdana,Arial,sans-serif;
+			text-align: center;
+			color: #808080;
+		}
+		#pp{
+			position:absolute;
+			bottom: 10%;
+			right: 10%;
+			color:#202020;
+			font-style: italic;
+			font-family: Verdana,Arial,sans-serif;
+		}
+		#cake{
+			position:absolute;
+			left:30%;
+			top: 40%;
+		}
+	</style>
+
+	<script>
+		function calc() {
+		    var card = document.getElementById("card");
+		    var maxWidth = window.innerWidth;
+		    var maxHeight = window.innerHeight;
+		    var useWidth = (maxWidth / maxHeight) <= 2;
+		    var nearh, remains, width, height, top, left;
+
+		    if (useWidth) {
+
+		        nearh = Math.floor(maxWidth / 100) * 100;
+		        remains = Math.floor((maxWidth - nearh) / 2);
+		        left = nearh * 0.05 + remains
+		        width = nearh * 0.9;
+		        top = Math.round(maxHeight / 10)
+		        height = width * 0.5;
+
+		        card.style.left = left + "px";
+		        card.style.width = width + "px";
+		        card.style.top = top + "px";
+		        card.style.height = height + "px";
+
+		    } else {
+
+		        nearh = Math.floor(maxHeight / 100) * 100;
+		        remains = Math.floor((maxHeight - nearh) / 2);
+		        top = nearh * 0.1 + remains;
+		        height = nearh * 0.8;
+		        width = height * 2;
+		        left = (maxWidth - width) / 2
+
+		        card.style.top = top + "px";
+		        card.style.height = height + "px";
+		        card.style.left = left + "px";
+		        card.style.width = width + "px";
+
+		    }
+
+		    document.getElementById("h1").style.fontSize = Math.round(width / 25) + "px";
+		    document.getElementById("titler").style.fontSize = Math.round(width / 40) + "px";
+		    card.style.borderWidth = Math.round(width / 200) + "px";
+
+		    window.width = width;
+
+		    var content = document.getElementById("content");
+
+		    switch (window.state) {
+
+		        case STATE_CANDLE:
+
+		            content.innerHTML = "";
+		            content.style.left = Math.round(width * 0.32) + "px";
+		            content.style.width = Math.round(width * 0.66) + "px";
+		            content.style.top = Math.round(height * 0.13) + "px";
+		            content.style.height = Math.round(height * 0.84) + "px";
+		            content.style.backgroundColor = "white";
+		            document.getElementById("titler").innerHTML = "Click To Light the Candles!";
+
+		            var html, i, j, units, imgw, imgl, imgt;
+
+		            for (i = 0; i <= 2; i++) {
+		                for (j = 0; j <= 15; j++) {
+		                    if (i == 2 && j == 15) break;
+		                    units = content.style.width.slice(0, content.style.width.length - 2) / 132;
+		                    imgw = units * 3;
+		                    imgl = units * 4 + units * 8 * j;
+		                    imgt = units * 3 + units * 5 * i + units * 21 * i;
+		                    html = '<img id="i' + i + j + '"type="image/gif" src="candle.gif" width="' + imgw + '" style="position:absolute;left:' + imgl + 'px;top:' + imgt + 'px" >';
+		                    content.innerHTML += html;
+		                    html = '<div id="d' + i + j + '" style="visibility:visible;position:absolute;background-color:white;left:' + imgl + 'px;top:' + imgt + 'px;width:' + imgw + 'px;height:' + 7 * units + 'px" onclick="window.click(event)"><div>';
+		                    content.innerHTML += html;
+		                }
+		            }
+
+		            break;
+
+		        case STATE_COUNTUP:
+
+		            content.innerHTML = "";
+		            content.style.left = Math.round(width * 0.32) + "px";
+		            content.style.width = Math.round(width * 0.66) + "px";
+		            content.style.top = Math.round(height * 0.13) + "px";
+		            content.style.height = Math.round(height * 0.84) + "px";
+		            content.style.backgroundColor = "white";
+		            document.getElementById("titler").innerHTML = "You are...";
+		            content.innerHTML = '<div id="countup">0</div>';
+		            var countup = document.getElementById("countup");
+		            countup.style.fontSize = window.width / 10 + "px";
+		            break;
+
+		        case STATE_END:
+
+		            content.innerHTML += '<img id="cake" src="cake.gif" alt="" width = "400" height = "400">'
+		            document.getElementById("pp").style.fontSize = document.getElementById("titler").style.fontSize;
+		            break;
+
+		        default:
+
+		            alert("!UNKNOWN ERROR:[SWITCH_NO_CASE]")
+
+		    }
+
+		}
+
+		function click(e) {
+
+		    e.preventDefault();
+		    if (e.target.style.visibility == "visible") {
+		        window.lit++;
+		    }
+		    e.target.style.visibility = "hidden";
+
+		    if (window.lit == 47) {
+		        window.state = window.STATE_COUNTUP;
+		        calc();
+		        window.count = 0;
+		        var countup = document.getElementById("countup");
+
+		        var si = setInterval(function() {
+		            window.count++;
+		            countup.innerHTML = window.count;
+		            if (window.count == window.lit) {
+		                countup.innerHTML += "!";
+		                window.state = STATE_END;
+		                calc();
+		                window.clearInterval(si);
+
+		            }
+		        }, 100)
+		    }
+
+		}
+		var width;
+		var STATE_CANDLE = 0;
+		var STATE_COUNTUP = 1;
+		var STATE_END = 2;
+		var state = STATE_CANDLE;
+		var lit = 0,
+		    count = 0;
+
+		window.onload = calc;
+		window.onresize = function() {
+		    window.lit = 0;
+	    	window.count = 0;
+		    window.state = STATE_CANDLE;
+		    calc()
+		};
+
+	</script>
+</head>
+<body>
+	<div id="card">
+		<div id="left">
+			<h1 id="h1">Happy<br>Birthday<br>Old<br>Dad</h1>
+			<!--<img src="photo.jpg" alt="" id="image">-->
+		</div>
+		<div id="titler">
+		</div>
+		<div id="content">
+		</div>
+	</div>
+</body>
